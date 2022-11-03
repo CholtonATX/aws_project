@@ -15,22 +15,13 @@ resource "aws_instance" "aws_test_ec2" {
   }
 
   provisioner "local-exec" {
-    command = templatefile("mac-ssh-script.tpl", {
+    command = templatefile("${var.host_os}-ssh-script.tpl", {
       hostname     = self.public_ip,
       user         = "ubuntu",
       identityfile = "~/.ssh/aws_test_key"
     })
     // use bash interpreter for mac and linux, Powershell for Windows (default is bash)
-    interpreter = ["bash", "-c"]
+    interpreter = var.host_os == "mac" ? ["bash", "-c"] : ["Powershell", "-Command"]
     // interpreter = ["Powershell", "-Command"]
   }
 }
-
-
-
-
-
-
-# output "public_ip_address" {
-#   value = "${azurerm_linux_virtual_machine.test1-vm.name}: ${data.azurerm_public_ip.test1-vm-ip_data.ip_address}"
-# }

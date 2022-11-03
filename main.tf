@@ -71,3 +71,4 @@ resource "aws_key_pair" "aws_test_key" {
   public_key = file("~/.ssh/aws_test_key.pub")
 }
 
+
